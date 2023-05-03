@@ -2,6 +2,7 @@ getgenv().targetplayer = "nil"
 getgenv().targetmap = "nil"
 getgenv().targetmode = "nil"
 getgenv().targetkaren = "nil"
+getgenv().targetclockbaws = "nil"
 getgenv().enwait = 10
 
 if game.PlaceId ~= 314927855 and game.PlaceId ~= 319213769 then
@@ -65,6 +66,17 @@ local Input = Tab:CreateInput({
 })
 local Paragraph = Tab:CreateParagraph({Title = "Notes", Content = "Must have the default pillow equipped and in your hand. Don't spam it, or you'll be kicked. Only works within a short distance. Case sensitive. Doesn't work in maps that replace your pillow with a custom one.",SectionParent})
 
+local Section = Tab:CreateSection("Misc", true)
+local Button = Tab:CreateButton({
+    Name = "Detach Player",
+    Info = "Weird",
+    Interact = 'Changable',
+    Callback = function()
+        firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.Lobby.Tip.Bounce, 0)
+    end,
+})
+local Paragraph = Tab:CreateParagraph({Title = "Notes", Content = "Causes weird glitches with your character.",SectionParent})
+
 local Tab = Window:CreateTab("Maps")
 local Section = Tab:CreateSection("LAD", true)
 local Keybind = Tab:CreateKeybind({
@@ -104,6 +116,66 @@ local Input = Tab:CreateInput({
     end,
 })
 local Paragraph = Tab:CreateParagraph({Title = "Notes", Content = "Only works while you're a karen. Target Player is case-sensitive.",SectionParent})
+
+local Section = Tab:CreateSection("ClockBaws", true)
+local Button = Tab:CreateButton({
+    Name = "Hit ClockBaws",
+    Info = "Insane.",
+    Interact = 'Changable',
+    Callback = function()
+        for i = 1, targetclockbaws do
+            local args = {
+                [1] = workspace.Map.Clock.Breakable,
+                [2] = game:GetService("Players").LocalPlayer.Character.Pillow.Handle.ParticleEmitter
+            }
+            game:GetService("ReplicatedStorage").RemoteEvents.TouchedBreakable:FireServer(unpack(args))             
+        end          
+    end,
+})
+local Input = Tab:CreateInput({
+    Name = "Amount of times to hit ClockBaws",
+    PlaceholderText = "500",
+    NumbersOnly = true, 
+    CharacterLimit = 3, 
+    OnEnter = false, 
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text)
+        getgenv().targetclockbaws = Text
+    end,
+})
+local Paragraph = Tab:CreateParagraph({Title = "Notes", Content = "Anything above 250 should auto kill him.",SectionParent})
+
+local Section = Tab:CreateSection("Pizzeria", true)
+local Button = Tab:CreateButton({
+    Name = "Turn off Lights",
+    Info = "Turns off the lights",
+    Interact = 'Changable',
+    Callback = function()
+        fireclickdetector(workspace.Map.Part.ClickDetector)
+    end,
+})
+
+local Section = Tab:CreateSection("CTC", true)
+local Button = Tab:CreateButton({
+    Name = "Auto Catch Chicken",
+    Info = "OP",
+    Interact = 'Changable',
+    Callback = function()
+        firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.Map.Chicken.Head, 0)
+    end,
+})
+local Paragraph = Tab:CreateParagraph({Title = "Notes", Content = "Might break the chicken.",SectionParent})
+
+local Section = Tab:CreateSection("PCH", true)
+local Button = Tab:CreateButton({
+    Name = "Grab Chips",
+    Info = "Grabs the potato chips",
+    Interact = 'Changable',
+    Callback = function()
+        firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.Map.Chips, 0)
+    end,
+})
+local Paragraph = Tab:CreateParagraph({Title = "Notes", Content = "Sometimes glitches the chips making it so everyone loses.",SectionParent})
 
 local Tab = Window:CreateTab("Voting")
 local Section = Tab:CreateSection("Vote Options", true)
@@ -157,5 +229,5 @@ local Button = Tab:CreateButton({
 local Paragraph = Tab:CreateParagraph({Title = "Notes", Content = "Does not give you infinite votes. Also requires tickets to use the ticket vote.",SectionParent})
 
 local Tab = Window:CreateTab("Info")
-local Paragraph = Tab:CreateParagraph({Title = "Version: 2.0.0", Content = "Compatible with v250 (really version 2.6.5).",SectionParent})
-local Paragraph = Tab:CreateParagraph({Title = "Patch Notes", Content = "Added working GUI (instead of settling for executing a remote) \nRemoved block water damage as it would crash your game.\nRemoved noise spam because it was broken.",SectionParent})
+local Paragraph = Tab:CreateParagraph({Title = "Version: 2.1.0", Content = "Compatible with v2.6.6",SectionParent})
+local Paragraph = Tab:CreateParagraph({Title = "Patch Notes", Content = "Added the following:\nDetatch Player\n Hit ClockBaws\nTurn off lights on Pizzeria\n Catch Chicken on CTC\nGrab Chips on PCH",SectionParent})
